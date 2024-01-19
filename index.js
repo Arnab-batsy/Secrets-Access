@@ -2,7 +2,7 @@
 import express from "express";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import bodyParser from "body-parser";
+// import bodyParser from "body-parser";
 
 const app= express();
 const port= 3000;
@@ -10,11 +10,14 @@ var isCorrect= false;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); //BodyParser has now been incorporated to express
 
 function check(req,res,next){
     if(req.body["password"]==="ILoveProgramming"){
         isCorrect=true;
+    }
+    else{
+        isCorrect=false;
     }
     next();
 }
@@ -26,7 +29,7 @@ app.post("/check",(req,res)=>{
         res.sendFile(__dirname+"/public/secret.html")
     }
     else{
-        res.sendFile(__dirname + "/public/index.html");
+        res.redirect("/");
     }
 })
 
